@@ -1,7 +1,6 @@
 use std::{env, fs};
-
 fn main() {
- let current_exe = env::current_exe().unwrap();
+    let current_exe = env::current_exe().unwrap();
     let uefi_target = current_exe.with_file_name("uefi.img");
     let bios_target = current_exe.with_file_name("bios.img");
 
