@@ -42,12 +42,13 @@ fn main(bootinfo: &'static mut bootloader_api::BootInfo) -> ! {
     x86_64::instructions::interrupts::int3();
     panic!("OH NAUR we hit an interrupt");
 
-    loop {}
 }
 
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
 
-    log::error!("PANIC:\nLOCATION: {}:{}\nREASON: {}", info.location().expect("REASON").file(), info.location().expect("REASOn"),info.message());
+    log::error!("@ {}\nBECAUSE: {}", 
+        info.location().expect("REASON"),
+        info.message());
     loop {}
 }
