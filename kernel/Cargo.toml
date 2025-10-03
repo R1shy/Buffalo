@@ -14,5 +14,11 @@ bench = false
 bootloader-x86_64-common = "0.11.12"
 bootloader_api = "0.11.0"
 log = { version = "0.4.17", default-features = false }
-conquer-once = { version = "0.4.0", default-features = false }
 embedded-graphics = "0.8.1"
+conquer-once = { version = "0.4.0", default-features = false }
+x86_64 = "0.15.2"
+
+
+[dependencies.lazy_static]
+version = "1.0"
+features = ["spin_no_std"]
