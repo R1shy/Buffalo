@@ -36,13 +36,18 @@ fn main(bootinfo: &'static mut bootloader_api::BootInfo) -> ! {
     let frame_buffer_info = frame_buffer_struct.info().clone();
     let raw_frame_buffer = frame_buffer_struct.buffer_mut();
     init_logger(raw_frame_buffer, frame_buffer_info);
-
     
+    kernel::interrupts::init_idt();
+
+    x86_64::instructions::interrupts::int3();
+    panic!("OH NAUR we hit an interrupt");
 
     loop {}
 }
 
 #[panic_handler]
-fn panic(_info: &PanicInfo) -> ! {
+fn panic(info: &PanicInfo) -> ! {
+
+    log::error!("PANIC:\nLOCATION: {}:{}\nREASON: {}", info.location().expect("REASON").file(), info.location().expect("REASOn"),info.message());
     loop {}
 }
