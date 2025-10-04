@@ -6,6 +6,16 @@ edition = "2024"
 [workspace]
 members = ["kernel"]
 
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[profile.test]
+panic = "abort"
+
+
 [dependencies]
 embedded-graphics = "0.8.1"
 ovmf-prebuilt = "0.2.3"

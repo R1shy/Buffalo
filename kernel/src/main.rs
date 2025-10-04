@@ -1,12 +1,14 @@
 #![no_std]
 #![no_main]
 
+
 mod framebuffer;
 
-use bootloader_api::{entry_point, info::{FrameBuffer, FrameBufferInfo}, BootloaderConfig};
+use bootloader_api::{entry_point, info::FrameBufferInfo, BootloaderConfig};
 use bootloader_x86_64_common::logger::LockedLogger;
 use conquer_once::spin::OnceCell;
 use core::panic::PanicInfo;
+
 
 
 
@@ -22,7 +24,6 @@ pub(crate) fn init_logger(buffer: &'static mut [u8], info: FrameBufferInfo) {
     let logger = LOGGER.get_or_init(move || LockedLogger::new(buffer, info, true, false));
     log::set_logger(logger).expect("Logger already set");
     log::set_max_level(log::LevelFilter::Trace);
-    log::info!("Hello, Kernel Mode!");
 }
 
 
@@ -37,11 +38,10 @@ fn main(bootinfo: &'static mut bootloader_api::BootInfo) -> ! {
     let raw_frame_buffer = frame_buffer_struct.buffer_mut();
     init_logger(raw_frame_buffer, frame_buffer_info);
     
-    kernel::interrupts::init_idt();
+    kernel::init();
 
-    x86_64::instructions::interrupts::int3();
-    panic!("OH NAUR we hit an interrupt");
 
+    loop {}
 }
 
 #[panic_handler]
